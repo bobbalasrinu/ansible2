@@ -1,6 +1,6 @@
 --- 
 - name: tomcat installation on ubuntu 
-  hosts: all 
+  hosts: ubuntu
   become: yes
   tasks:
     - name: printing names
