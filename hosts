@@ -1,2 +1,5 @@
 [ubuntu]
 172.31.32.161
+
+[centos]
+localhost
