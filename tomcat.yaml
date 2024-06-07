@@ -3,3 +3,8 @@
 hosts: all 
 become: yes
 tasks:
+  name: printing names
+  ansible.builtin.debug:
+    msg: welcome to ansinle playbook
+    
+   
