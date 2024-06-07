@@ -1,2 +1,5 @@
 --- 
 - name: tomcat installation on ubuntu 
+hosts: all 
+become: yes
+tasks:
