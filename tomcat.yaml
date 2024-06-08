@@ -21,7 +21,6 @@
         shell: /bin/false  
     - name: downloding tomcat package
       ansible.builtin.unarchive:
-          ansible.builtin.unarchive:
         src: https://downloads.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
         remote_src: yes
         dest: /opt/tomcat
