@@ -32,7 +32,7 @@
         state: link
     - name: change permissions
       ansible.builtin.file:
-        dest: /opt/tomcat
+        dest: /opt/tomcat/latest
         recurse: true
         owner: tomcat
         group: tomcat
