@@ -19,6 +19,7 @@
         home: /opt/tomcat
         group: tomcat
         shell: /bin/false  
+        state: present
     - name: downloding tomcat package
       ansible.builtin.unarchive:
         src: https://downloads.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
@@ -38,5 +39,5 @@
         owner: tomcat
         state: directory
     - name: excecution of tomcat code 
-      ansible.builtin.command: sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+      ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
    
