@@ -44,3 +44,9 @@
         dest: /etc/systemd/system/tomcat.service
         owner: tomcat
         group: tomcat
+    - name: copy tomcat userfile
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: /opt/tomcat/conf/tomcat-users.xml
+        owner: tomcat
+        group: tomcat
