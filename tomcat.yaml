@@ -19,7 +19,7 @@
         home: /opt/tomcat
         group: tomcat
         shell: /bin/false
-    - name: creating directory  
+    - name: downloding tomcat package
       ansible.builtin.unarchive:
           src: https://downloads.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
           dest: /opt/tomcat
