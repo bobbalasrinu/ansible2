@@ -29,7 +29,7 @@
         path: /opt/tomcat/apache-tomcat-10.1.24
         recurse: yes
         dest: /opt/tomcat/latest
-        owner: tomcat
+        group: tomcat
         user: tomcat
         state: link
    
