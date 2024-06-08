@@ -30,6 +30,6 @@
         recurse: yes
         dest: /opt/tomcat/latest
         group: tomcat
-        user: tomcat
+        owner: tomcat
         state: link
    
