@@ -53,6 +53,13 @@
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
-        dest: //opt/tomcat/latest/tomcat-users.xml
+        dest: /opt/tomcat/latest/tomcat-users.xml
         owner: tomcat
         group: tomcat
+    - name: context file copy
+      ansible.builtin.copy:
+        src: context.xml
+        dest: /opt/tomcat/webapps/manager/META-INF/context.xml
+        owner: tomcat
+        group: tomcat
+    
