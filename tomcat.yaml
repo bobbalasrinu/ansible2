@@ -29,3 +29,12 @@
         src: /opt/tomcat/apache-tomcat-10.1.24
         dest: /opt/tomcat/latest
         state: link
+    - name: change file permissions
+      ansible.builtin.file:
+        dest: /opt/tomcat
+        recurse: true
+        owner: tomcat
+        group: tomcat
+        state: directory
+    - name: excecution of tomcat
+      ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
