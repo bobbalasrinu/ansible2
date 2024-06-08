@@ -25,18 +25,17 @@
         src: https://downloads.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
         remote_src: yes
         dest: /opt/tomcat
-    - name: sybmolic link creation
+    - name: create a symbolic link
       ansible.builtin.file:
         src: /opt/tomcat/apache-tomcat-10.1.24
         dest: /opt/tomcat/latest
         state: link
-    - name: change of file permissions
+    - name: change permissions
       ansible.builtin.file:
-        path: /opt/tomcat/latest
-        recurse: yes
-        dest: /opt/tomcat/latest
-        group: tomcat
+        dest: /opt/tomcat
+        recurse: true
         owner: tomcat
+        group: tomcat
         state: directory
     - name: excecution of tomcat code 
       ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
