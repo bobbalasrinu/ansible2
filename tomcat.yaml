@@ -59,7 +59,7 @@
     - name: context file copy
       ansible.builtin.copy:
         src: context.xml
-        dest: /opt/tomcat/webapps/manager/META-INF/context.xml
+        dest: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
         owner: tomcat
         group: tomcat
     
