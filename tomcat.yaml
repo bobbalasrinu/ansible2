@@ -27,11 +27,8 @@
     - name: sybmolic link creation
       ansible.builtin.file:
         path: /opt/tomcat/apache-tomcat-10.1.24
-        recurse: yes
         dest: /opt/tomcat/latest
-        group: tomcat
-        owner: tomcat
-        state: directory
+        state: link
     - name: change of file permissions
       ansible.builtin.file:
         path: /opt/tomcat/latest
