@@ -1,5 +1,5 @@
 --- 
-- name: tomcat installation on ubuntu 
+- name: tomcat installation on ubuntu
   hosts: all
   become: yes
   tasks:
@@ -18,7 +18,7 @@
         create_home: yes
         home: /opt/tomcat
         group: tomcat
-        shell: /bin/false  
+        shell: /bin/false
         state: present
     - name: downloding tomcat package
       ansible.builtin.unarchive:
@@ -33,10 +33,9 @@
     - name: change permissions
       ansible.builtin.file:
         dest: /opt/tomcat
-        recurse: true 
+        recurse: true
         owner: tomcat
         group: tomcat
         state: directory
     - name: excecution of tomcat code 
       ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
-   
