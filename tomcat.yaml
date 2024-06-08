@@ -33,7 +33,7 @@
     - name: change permissions
       ansible.builtin.file:
         dest: /opt/tomcat
-        recurse: true
+        recurse: "true"
         owner: tomcat
         group: tomcat
         state: directory
