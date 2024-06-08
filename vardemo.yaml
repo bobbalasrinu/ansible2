@@ -1,0 +1,12 @@
+--- 
+- name: variable demo 
+  vars: 
+    name: srini 
+  hosts: all
+  tasks:
+    - name: priniting name
+      ansible.builtin.debug:
+        var: name
+    - name: print something else 
+      ansible.builtin.debug:
+        msg: "hello, {{name}}"
