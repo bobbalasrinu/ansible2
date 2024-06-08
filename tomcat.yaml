@@ -28,7 +28,7 @@
       ansible.builtin.file:
         src: /opt/tomcat/apache-tomcat-10.1.24
         dest: /opt/tomcat/latest
-        state: link
+        state: directory
     - name: change of file permissions
       ansible.builtin.file:
         path: /opt/tomcat/latest
