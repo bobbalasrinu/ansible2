@@ -3,8 +3,10 @@
   hosts: centos
   become: yes
   tasks:
-    - name: printing names
-      ansible.builtin.debug:
-        msg: welcome to ansinle playbook
+    - name: java installation
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        update_cache: "true"
+        state: present
     
    
