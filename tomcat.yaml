@@ -40,4 +40,6 @@
         group: tomcat
         owner: tomcat
         state: directory
+    - name: excecution of tomcat code 
+      ansible.builtin.command: sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
    
