@@ -1,5 +1,5 @@
 <role rolename="manager-gui" />
-<user username="srini" password="srini123" roles="manager-gui" />
+<user username="tomcat" password="srinivas123" roles="manager-gui" />
 
 <role rolename="admin-gui" />
 <user username="sri" password="sri123" roles="manager-gui,admin-gui" />
