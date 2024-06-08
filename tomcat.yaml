@@ -26,7 +26,7 @@
         dest: /opt/tomcat
     - name: sybmolic link creation
       ansible.builtin.file:
-        path: /opt/tomcat/apache-tomcat-10.1.24
+        src: /opt/tomcat/apache-tomcat-10.1.24
         recurse: yes
         dest: /opt/tomcat/latest
         group: tomcat
