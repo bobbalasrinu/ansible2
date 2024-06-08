@@ -32,4 +32,12 @@
         group: tomcat
         owner: tomcat
         state: directory
+    - name: change of file permissions
+      ansible.builtin.file:
+        path: /opt/tomcat/latest
+        recurse: yes
+        dest: /opt/tomcat/latest
+        group: tomcat
+        owner: tomcat
+        state: directory
    
