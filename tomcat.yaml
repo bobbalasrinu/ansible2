@@ -27,9 +27,9 @@
         dest: /opt/tomcat
     - name: sybmolic link creation
       ansible.builtin.file:
-        path: /opt/tomcat/apache-tomcat-10.1.24
+        src: /opt/tomcat/apache-tomcat-10.1.24
         dest: /opt/tomcat/latest
-        state: directory
+        state: link
     - name: change of file permissions
       ansible.builtin.file:
         path: /opt/tomcat/latest
