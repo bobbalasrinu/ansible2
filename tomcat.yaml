@@ -35,8 +35,8 @@
         dest: "{{user_home}}/latest"
         state: link
       notify:
-        - excecution of tomcat
         - change file permissions
+        - excecution of tomcat
     - name: copy systemd file ubuntu
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
@@ -45,7 +45,7 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "Ubuntu"
       notify:
-        - restart tomcat
+        - enable and reload tomcat
     - name: copy systemd file on Centos
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -54,25 +54,31 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "CentOS"
       notify:
-        - restart tomcat
+        - enable and reload tomcat
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
         dest: /opt/tomcat/latest/conf/tomcat-users.xml
         owner: "{{user_name}}"
         group: "{{group_name}}"
+      notify:
+        - restart tomcat
     - name: context file copy
       ansible.builtin.copy:
         src: context.xml
         dest: "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
         owner: "{{user_name}}"
         group: "{{group_name}}"
+      notify:
+        - restart tomcat
     - name: copy the host manager app context file
       ansible.builtin.copy:
         src: hostmanager-context.xml
         dest: "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{user_name}}"
         group: "{{group_name}}"
+      notify:
+        - restart tomcat
   handlers:
     - name: restart tomcat
       ansible.builtin.systemd:
@@ -90,4 +96,7 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
         state: directory
-    
+    - name: enable and reload tomcat
+      ansible.builtin.systemd:
+        name: "{{ tomcat_service_name }}"
+        state: restarted
