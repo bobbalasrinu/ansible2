@@ -19,11 +19,16 @@
         group: "{{user_name}}"
         shell: "{{shell}}"
         state: present
+    - name: get tomcat stats
+      ansible.builtin.stat:
+        path: "{{ user_home }}/latest/bin/startup.sh"
+      register: tomcat_startup
     - name: downloding tomcat package
       ansible.builtin.unarchive:
         src: https://downloads.apache.org/tomcat/tomcat-{{tomcat_maj_v}}/v{{tomcat_v}}/bin/apache-tomcat-{{tomcat_v}}.tar.gz
         remote_src: yes
         dest: "{{user_home}}"
+      when: not tomcat_startup.stat.exists
     - name: creating sybmolic link
       ansible.builtin.file:
         src: "{{user_home}}/apache-tomcat-{{tomcat_v}}"
@@ -38,6 +43,7 @@
         state: directory
     - name: excecution of tomcat
       ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
+      when: not tomcat_startup.stat.exists
     - name: copy systemd file ubuntu
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
