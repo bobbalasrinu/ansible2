@@ -38,14 +38,27 @@
         state: directory
     - name: excecution of tomcat
       ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
-    - name: copy systemd file
+    - name: copy systemd file ubuntu
       ansible.builtin.copy:
-        src: tomcat.service
+        src: ubuntut.omcat.service
         dest: /etc/systemd/system/tomcat.service
         owner: "{{user_name}}"
         group: "{{group_name}}"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: copy systemd file on Centos
+      ansible.builtin.copy:
+        src: centos.tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
+      when: ansible_facts['distribution'] == "CentOS"
     - name: reload daemon and start tomcat
       ansible.builtin.systemd:
+        name: tomcat.service
+        daemon_reload: yes
+        enabled: yes
+        state: started
+     ansible.builtin.systemd:
         name: tomcat.service
         daemon_reload: yes
         enabled: yes
