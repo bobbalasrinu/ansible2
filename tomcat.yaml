@@ -78,7 +78,6 @@
     - name: restart
       ansible.builtin.systemd:
         name: tomcat.service
-        enabled: yes
         state: restarted
     - name: excecution of tomcat
       ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
