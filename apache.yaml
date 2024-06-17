@@ -1,4 +1,3 @@
----- 
 - name: installation of apache on ubuntu and centos 
   hosts: appservers
   become: yes
