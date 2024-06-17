@@ -1,5 +1,5 @@
 [appservers]
-localhost
+localhost java_name=openjdk-11-jdk
 
 [appservers:vars]
 group_name= tomcat
