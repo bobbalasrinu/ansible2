@@ -40,7 +40,7 @@
       ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
     - name: copy systemd file ubuntu
       ansible.builtin.copy:
-        src: ubuntut.omcat.service
+        src: ubuntu.tomcat.service
         dest: /etc/systemd/system/tomcat.service
         owner: "{{user_name}}"
         group: "{{group_name}}"
@@ -52,17 +52,6 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "CentOS"
-    - name: reload daemon and start tomcat
-      ansible.builtin.systemd:
-        name: tomcat.service
-        daemon_reload: yes
-        enabled: yes
-        state: started
-     ansible.builtin.systemd:
-        name: tomcat.service
-        daemon_reload: yes
-        enabled: yes
-        state: started
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
@@ -84,4 +73,6 @@
     - name: restart tomcat
       ansible.builtin.systemd:
         name: tomcat.service
-        state: restarted
+        daemon_reload: yes
+        enabled: yes
+        state: started
