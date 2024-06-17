@@ -1,1 +1,10 @@
-172.31.34.198
+[appservers]
+localhost
+
+[appservers:vars]
+group_name= tomcat
+user_name= tomcat
+user_home= /opt/tomcat
+shell= /bin/false
+tomcat_maj_v= 10
+tomcat_v= 10.1.24

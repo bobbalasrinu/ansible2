@@ -1,5 +1,5 @@
 - name: tomcat installation on ubuntu
-  hosts: all
+  hosts: appservers
   become: yes
   tasks:
     - name: java installation
@@ -9,41 +9,41 @@
         state: present
     - name: adding user group
       ansible.builtin.group:
-        name: tomcat
+        name: "{{group_name}}"
         state: present
     - name: adding user
       ansible.builtin.user:
         name: tomcat
         create_home: yes
-        home: /opt/tomcat
-        group: tomcat
-        shell: /bin/false
+        home: "{{user_home}}"
+        group: "{{user_name}}"
+        shell: "{{shell}}"
         state: present
     - name: downloding tomcat package
       ansible.builtin.unarchive:
-        src: https://downloads.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
+        src: https://downloads.apache.org/tomcat/tomcat-{{tomcat_maj_v}}/v{{tomcat_v}}/bin/apache-tomcat-{{tomcat_v}}.tar.gz
         remote_src: yes
-        dest: /opt/tomcat
+        dest: "{{user_home}}"
     - name: creating sybmolic link
       ansible.builtin.file:
-        src: /opt/tomcat/apache-tomcat-10.1.24
-        dest: /opt/tomcat/latest
+        src: "{{user_home}}/apache-tomcat-{{tomcat_v}}"
+        dest: "{{user_home}}/latest"
         state: link
     - name: change file permissions
       ansible.builtin.file:
-        dest: /opt/tomcat
+        dest: "{{user_home}}"
         recurse: true
-        owner: tomcat
-        group: tomcat
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
         state: directory
     - name: excecution of tomcat
-      ansible.builtin.command: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+      ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
     - name: copy systemd file
       ansible.builtin.copy:
         src: tomcat.service
         dest: /etc/systemd/system/tomcat.service
-        owner: tomcat
-        group: tomcat
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
     - name: reload daemon and start tomcat
       ansible.builtin.systemd:
         name: tomcat.service
@@ -54,20 +54,20 @@
       ansible.builtin.copy:
         src: tomcat.service
         dest: /opt/tomcat/latest/conf/tomcat-users.xml
-        owner: tomcat
-        group: tomcat
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
     - name: context file copy
       ansible.builtin.copy:
         src: context.xml
-        dest: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
-        owner: tomcat
-        group: tomcat
+        dest: "{{user_hoem}}/latest/webapps/manager/META-INF/context.xml"
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
     - name: copy the host manager app context file
       ansible.builtin.copy:
         src: hostmanager-context.xml
-        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
-        owner: tomcat
-        group: tomcat
+        dest: {{user_home}}/latest/webapps/host-manager/META-INF/context.xml
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
     - name: restart tomcat
       ansible.builtin.systemd:
         name: tomcat.service
