@@ -1,6 +1,7 @@
 [appservers]
 localhost java_name=openjdk-11-jdk
 20.42.103.255 java_name=java-11-openjdk-devel
+172.31.45.153 java_name=openjdk-11-jdk
 
 [appservers:vars]
 group_name= tomcat
