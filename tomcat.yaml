@@ -34,16 +34,9 @@
         src: "{{user_home}}/apache-tomcat-{{tomcat_v}}"
         dest: "{{user_home}}/latest"
         state: link
-    - name: change file permissions
-      ansible.builtin.file:
-        dest: "{{user_home}}"
-        recurse: true
-        owner: "{{user_name}}"
-        group: "{{group_name}}"
-        state: directory
-    - name: excecution of tomcat
-      ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
-      when: not tomcat_startup.stat.exists
+      notify:
+        - excecution of tomcat
+        - change file permissions
     - name: copy systemd file ubuntu
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
@@ -51,6 +44,8 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "Ubuntu"
+      notify:
+        - restart tomcat
     - name: copy systemd file on Centos
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -58,6 +53,8 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "CentOS"
+      notify:
+        - restart tomcat
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
@@ -76,9 +73,21 @@
         dest: "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{user_name}}"
         group: "{{group_name}}"
+  handlers:
     - name: restart tomcat
       ansible.builtin.systemd:
         name: tomcat.service
         daemon_reload: yes
         enabled: yes
         state: started
+    - name: excecution of tomcat
+      ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
+      when: not tomcat_startup.stat.exists
+    - name: change file permissions
+      ansible.builtin.file:
+        dest: "{{user_home}}"
+        recurse: true
+        owner: "{{user_name}}"
+        group: "{{group_name}}"
+        state: directory
+    
