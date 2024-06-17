@@ -1,0 +1,35 @@
+---- 
+- name: installation of apache on ubuntu and centos 
+  hosts: appservers
+  become: yes
+  tasks:
+   - name: install apache on ubuntu
+     ansible.builtin.apt:
+       name: apache2
+       update_cache: yes
+       state: present
+     when: ansible_facts['distribution'] == "Ubuntu"
+     notify:
+       - restart apache2
+   - name: install httpd on centos
+     ansible.builtin.yum:
+       name: httpd
+       state: present
+     when: ansible_facts['distribution'] == "CentOS"
+     notify:
+       - restart httpd
+   - name: copy info.php file
+     ansible.builtin.copy:
+       src: info.php
+       dest: /var/www/html/info.php
+  handlers:
+    - name: restart apache2
+      ansible.builtin.systemd:
+        name: apache2
+        enabled: yes
+        state: restarted
+    - name: restart httpd
+      ansible.builtin.systemd:
+        name: httpd
+        enabled: yes
+        state: restarted
