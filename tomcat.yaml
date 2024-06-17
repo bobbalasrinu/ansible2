@@ -45,7 +45,7 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "Ubuntu"
       notify:
-        - enable and reload tomcat
+        - restart tomcat
     - name: copy systemd file on Centos
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -54,7 +54,7 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "CentOS"
       notify:
-        - enable and reload tomcat
+        - restart tomcat
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
@@ -62,7 +62,7 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       notify:
-        - restart tomcat
+        - enable and reload tomcat
     - name: context file copy
       ansible.builtin.copy:
         src: context.xml
@@ -70,7 +70,7 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       notify:
-        - restart tomcat
+        - enable and reload tomcat
     - name: copy the host manager app context file
       ansible.builtin.copy:
         src: hostmanager-context.xml
