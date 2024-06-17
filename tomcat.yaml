@@ -45,7 +45,7 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "Ubuntu"
       notify:
-        - restart tomcat
+        - restart
     - name: copy systemd file on Centos
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -54,7 +54,7 @@
         group: "{{group_name}}"
       when: ansible_facts['distribution'] == "CentOS"
       notify:
-        - restart tomcat
+        - restart
     - name: tomcat user file
       ansible.builtin.copy:
         src: tomcat.service
@@ -62,30 +62,25 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
       notify:
-        - enable and reload tomcat
+        - restart
     - name: context file copy
       ansible.builtin.copy:
         src: context.xml
+        dest: "{{item}}"
         dest: "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
         owner: "{{user_name}}"
         group: "{{group_name}}"
+      loop:
+        - "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
+        - "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
       notify:
-        - enable and reload tomcat
-    - name: copy the host manager app context file
-      ansible.builtin.copy:
-        src: hostmanager-context.xml
-        dest: "{{user_home}}/latest/webapps/host-manager/META-INF/context.xml"
-        owner: "{{user_name}}"
-        group: "{{group_name}}"
-      notify:
-        - restart tomcat
+        - restart
   handlers:
-    - name: restart tomcat
+    - name: restart
       ansible.builtin.systemd:
         name: tomcat.service
-        daemon_reload: yes
         enabled: yes
-        state: started
+        state: restarted
     - name: excecution of tomcat
       ansible.builtin.command: sudo sh -c 'chmod +x {{user_home}}/latest/bin/*.sh'
       when: not tomcat_startup.stat.exists
@@ -96,7 +91,3 @@
         owner: "{{user_name}}"
         group: "{{group_name}}"
         state: directory
-    - name: enable and reload tomcat
-      ansible.builtin.systemd:
-        name: tomcat.service
-        state: restarted
