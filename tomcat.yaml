@@ -67,7 +67,6 @@
       ansible.builtin.copy:
         src: context.xml
         dest: "{{item}}"
-        dest: "{{user_home}}/latest/webapps/manager/META-INF/context.xml"
         owner: "{{user_name}}"
         group: "{{group_name}}"
       loop:
