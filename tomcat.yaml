@@ -98,5 +98,5 @@
         state: directory
     - name: enable and reload tomcat
       ansible.builtin.systemd:
-        name: "{{ tomcat_service_name }}"
+        name: tomcat.service
         state: restarted
